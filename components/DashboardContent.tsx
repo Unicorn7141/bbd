@@ -45,8 +45,8 @@ const DashboardContent = () => {
       </div>
 
       {/* Detailed Bars */}
-      <Card>
-        <div className="flex justify-between items-center mb-6">
+      <Card className="lg:col-span-2 min-h-[400px] relative overflow-hidden">
+        <div className="flex justify-between items-start mb-6">
           <h2 className="text-lg font-bold text-white">פירוט מעמיק</h2>
           <div className="text-sm text-[#808191]">סטטוס מכלולים</div>
         </div>
