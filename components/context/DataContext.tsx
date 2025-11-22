@@ -151,31 +151,38 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({
     refreshData();
   }, []);
 
-  const addComponent = async (comp: Partial<Component>) => {
-    const res = await fetch("/api/components", {
-      method: "POST",
-      body: JSON.stringify(comp),
-    });
+  const addComponent = async (comp: Partial<Component>): Promise<boolean> => {
+    try {
+      const res = await fetch("/api/components", {
+        method: "POST",
+        body: JSON.stringify(comp),
+      });
 
-    if (!res.ok) {
-      throw new Error("Failed to add component");
+      if (!res.ok) return false;
+
+      const data = await res.json();
+
+      // Fetch stored item so dates are correct
+      const itemRes = await fetch(`/api/components/${data.id}`);
+      if (!itemRes.ok) return false;
+
+      const item: Component = await itemRes.json();
+
+      // Normalize dates
+      const normalized = {
+        ...item,
+        dateReceived: item.dateReceived?.split("T")[0] ?? "",
+        updateDate: new Date(item.updateDate).toISOString(),
+      };
+
+      setComponents((prev) => [...prev, normalized]);
+      computeKPIs([...components, normalized]);
+
+      return true;
+    } catch (err) {
+      console.error("addComponent error", err);
+      return false;
     }
-
-    const data = await res.json();
-
-    // Fetch stored item
-    const itemRes = await fetch(`/api/components/${data.id}`);
-    const item: Component = await itemRes.json();
-
-    // 🔥 Normalize dates
-    const normalized = {
-      ...item,
-      dateReceived: item.dateReceived?.split("T")[0] ?? "",
-      updateDate: new Date(item.updateDate).toISOString(),
-    };
-
-    setComponents((prev) => [...prev, normalized]);
-    computeKPIs([...components, normalized]);
   };
 
   const updateComponent = async (
