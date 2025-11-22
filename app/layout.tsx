@@ -16,7 +16,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" dir="rtl">
-      <title>Big Brother Dashboard</title>
       <body className="bg-[#0f1624] text-white flex">
         <DataProvider>
           <Sidebar />

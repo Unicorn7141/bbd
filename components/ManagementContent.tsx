@@ -307,7 +307,7 @@ const ManagementContent: React.FC<ManagementContentProps> = ({
                 <div className="bg-[#1F2128] p-4 rounded-xl border border-[#2F333F] mr-4">
                   <div className="flex justify-between text-sm mb-2">
                     <span className="font-bold text-white">
-                      גרסה {entry.version}
+                      עדכון {entry.version}
                     </span>
                     <span className="text-[#808191]">
                       {new Date(entry.timestamp).toLocaleString("he-IL")}
