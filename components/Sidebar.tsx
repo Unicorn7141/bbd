@@ -17,8 +17,8 @@ export default function Sidebar() {
       <div className="flex justify-center mb-8">
         <Image
           src="/logo/logo.png"
-          width={80}
-          height={80}
+          width={1024}
+          height={1024}
           alt="Website Logo"
           className="rounded-full"
         />
@@ -31,14 +31,14 @@ export default function Sidebar() {
             href={item.href}
             className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-[#222c3e] transition"
           >
-            <item.icon size={20} />
+            <item.icon size={24} />
             {item.label}
           </Link>
         ))}
       </nav>
 
       <div className="mt-auto">
-        <label>Version 1.0.5</label>
+        <label>Version 1.0.6</label>
       </div>
     </div>
   );
