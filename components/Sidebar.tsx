@@ -38,10 +38,7 @@ export default function Sidebar() {
       </nav>
 
       <div className="mt-auto">
-        <input
-          placeholder="Search..."
-          className="w-full bg-[#111827] p-2 rounded-lg mt-5 outline-none border border-[#253041]"
-        />
+        <label>Version 1.0.0</label>
       </div>
     </div>
   );

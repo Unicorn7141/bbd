@@ -15,6 +15,25 @@ import { Component, HistoryEntry } from "./lib/types";
 import ComponentForm from "./ComponentForm";
 import { COMPONENT_TYPES } from "./context/DataContext";
 
+function formatMaybeDate(value: any): string {
+  if (!value) return "—";
+
+  // Check if value looks like an ISO timestamp
+  const d = new Date(value);
+  if (!isNaN(d.getTime())) {
+    return d.toLocaleString("he-IL", {
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    });
+  }
+
+  return String(value);
+}
+
 const HE_STATUS_MAP: Record<string, string> = {
   usable: "תקין",
   faulty: "תקול",
@@ -334,14 +353,16 @@ const ManagementContent: React.FC<ManagementContentProps> = ({
                         : (change as any);
 
                     const oldValue =
-                      c.old === "" || c.old == null
+                      c.old == null
                         ? "—"
-                        : HE_STATUS_MAP[c.old as string] || c.old;
+                        : HE_STATUS_MAP[c.old as string] ||
+                          formatMaybeDate(c.old);
 
                     const newValue =
-                      c.new === "" || c.new == null
+                      c.new == null
                         ? "—"
-                        : HE_STATUS_MAP[c.new as string] || c.new;
+                        : HE_STATUS_MAP[c.new as string] ||
+                          formatMaybeDate(c.new);
 
                     return (
                       <div
