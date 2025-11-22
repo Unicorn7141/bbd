@@ -38,7 +38,7 @@ export default function Sidebar() {
       </nav>
 
       <div className="mt-auto">
-        <label>Version 1.0.0</label>
+        <label>Version 1.0.1</label>
       </div>
     </div>
   );

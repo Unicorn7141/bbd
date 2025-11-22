@@ -2,6 +2,17 @@
 import { NextRequest, NextResponse } from "next/server";
 import { pool } from "@/lib/db";
 
+// Convert yyyy-mm-dd -> Date (local midnight)
+const parseDateOnly = (str: string): Date => {
+  if (!str) return new Date();
+
+  // If the DB already returned a full timestamp, keep it
+  if (str.includes("T")) return new Date(str);
+
+  const [y, m, d] = str.split("-").map(Number);
+  return new Date(y, m - 1, d);
+};
+
 // -------------------------------------------------------
 // GET /api/components/:id
 // -------------------------------------------------------
@@ -69,6 +80,11 @@ export async function PUT(
   const { id } = await context.params;
   const { updatedFields } = await req.json();
 
+  // Normalize dates coming from client
+  if (updatedFields.dateReceived) {
+    updatedFields.dateReceived = parseDateOnly(updatedFields.dateReceived);
+  }
+
   const client = await pool.connect();
 
   try {
@@ -113,13 +129,22 @@ export async function PUT(
     for (const key in updatedFields) {
       if (!map[key]) continue;
 
-      if (old[key] !== updatedFields[key]) {
-        apply[map[key]] = updatedFields[key];
-        changes[key] = { old: old[key], new: updatedFields[key] };
+      const newVal = updatedFields[key];
+      const oldVal = old[key];
+
+      // Compare correctly (dates must match local midnight)
+      const equal =
+        newVal instanceof Date &&
+        oldVal instanceof Date &&
+        newVal.getTime() === new Date(oldVal).getTime();
+
+      if (!equal && oldVal !== newVal) {
+        apply[map[key]] = newVal;
+        changes[key] = { old: oldVal, new: newVal };
       }
     }
 
-    const now = new Date().toISOString();
+    const now = new Date();
     apply["update_date"] = now;
 
     const columns = Object.keys(apply);

@@ -15,25 +15,6 @@ import { Component, HistoryEntry } from "./lib/types";
 import ComponentForm from "./ComponentForm";
 import { COMPONENT_TYPES } from "./context/DataContext";
 
-function formatMaybeDate(value: any): string {
-  if (!value) return "—";
-
-  // Check if value looks like an ISO timestamp
-  const d = new Date(value);
-  if (!isNaN(d.getTime())) {
-    return d.toLocaleString("he-IL", {
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-    });
-  }
-
-  return String(value);
-}
-
 const HE_STATUS_MAP: Record<string, string> = {
   usable: "תקין",
   faulty: "תקול",
@@ -57,6 +38,36 @@ interface ManagementContentProps {
   embeddedFilter?: Record<string, string>;
   showHeader?: boolean;
 }
+
+// ✅ Helper: unify how we display values in history
+const formatHistoryValue = (key: string, value: any): string => {
+  if (value === null || value === undefined || value === "") return "—";
+
+  // Status -> Hebrew text
+  if (key === "status") {
+    return HE_STATUS_MAP[value as string] || String(value);
+  }
+
+  // Date-only field (תאריך קבלה)
+  if (key === "dateReceived") {
+    if (typeof value === "string") {
+      // "2025-11-22" or "2025-11-22T00:00:00.000Z"
+      const str = value.length > 10 ? value : value + "T00:00:00";
+      const d = new Date(str);
+      if (!isNaN(d.getTime())) {
+        return d.toLocaleDateString("he-IL");
+      }
+      return value;
+    }
+    if (value instanceof Date && !isNaN(value.getTime())) {
+      return value.toLocaleDateString("he-IL");
+    }
+    return String(value);
+  }
+
+  // Generic: keep as-is
+  return String(value);
+};
 
 const ManagementContent: React.FC<ManagementContentProps> = ({
   embeddedFilter = {},
@@ -352,17 +363,11 @@ const ManagementContent: React.FC<ManagementContentProps> = ({
                         ? { new: change }
                         : (change as any);
 
-                    const oldValue =
-                      c.old == null
-                        ? "—"
-                        : HE_STATUS_MAP[c.old as string] ||
-                          formatMaybeDate(c.old);
+                    const oldValue = formatHistoryValue(key, c.old);
+                    const newValue = formatHistoryValue(key, c.new);
 
-                    const newValue =
-                      c.new == null
-                        ? "—"
-                        : HE_STATUS_MAP[c.new as string] ||
-                          formatMaybeDate(c.new);
+                    // ✨ If formatted values are identical, don't show this row
+                    if (oldValue === newValue) return null;
 
                     return (
                       <div
@@ -373,8 +378,8 @@ const ManagementContent: React.FC<ManagementContentProps> = ({
                           {label}:
                         </span>
                         <span>
-                          <span className="text-white">{String(newValue)}</span>{" "}
-                          ➔ {String(oldValue)}
+                          <span className="text-white">{newValue}</span> ➔{" "}
+                          {oldValue}
                         </span>
                       </div>
                     );
