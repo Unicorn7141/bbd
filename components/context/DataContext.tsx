@@ -129,8 +129,16 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({
         const res = await fetch("/api/components");
         if (!res.ok) throw new Error("Failed to fetch components");
         const data: Component[] = await res.json();
-        setComponents(data);
-        computeKPIs(data);
+
+        // 🔥 Normalize all dates
+        const normalized = data.map((c) => ({
+          ...c,
+          dateReceived: c.dateReceived?.split("T")[0] ?? "",
+          updateDate: new Date(c.updateDate).toISOString(),
+        }));
+
+        setComponents(normalized);
+        computeKPIs(normalized);
       } catch (err) {
         console.error("Failed to load components", err);
       } finally {
@@ -143,24 +151,31 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({
     refreshData();
   }, []);
 
-  const addComponent = async (data: Partial<Component>) => {
-    try {
-      const res = await fetch("/api/components", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
+  const addComponent = async (comp: Partial<Component>) => {
+    const res = await fetch("/api/components", {
+      method: "POST",
+      body: JSON.stringify(comp),
+    });
 
-      if (!res.ok) return false;
-      const created: Component = await res.json();
-      const newList = [created, ...components];
-      setComponents(newList);
-      computeKPIs(newList);
-      return true;
-    } catch (err) {
-      console.error("addComponent error", err);
-      return false;
+    if (!res.ok) {
+      throw new Error("Failed to add component");
     }
+
+    const data = await res.json();
+
+    // Fetch stored item
+    const itemRes = await fetch(`/api/components/${data.id}`);
+    const item: Component = await itemRes.json();
+
+    // 🔥 Normalize dates
+    const normalized = {
+      ...item,
+      dateReceived: item.dateReceived?.split("T")[0] ?? "",
+      updateDate: new Date(item.updateDate).toISOString(),
+    };
+
+    setComponents((prev) => [...prev, normalized]);
+    computeKPIs([...components, normalized]);
   };
 
   const updateComponent = async (
