@@ -65,7 +65,7 @@ export default function Sidebar() {
 
         {/* Footer */}
         <div className="mt-auto w-full text-xs text-[#808191] text-center pt-4 border-t border-[#253041]">
-          Version 1.0.6
+          Version 1.0.7
         </div>
       </div>
     </aside>
