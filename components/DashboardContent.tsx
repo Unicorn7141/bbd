@@ -44,83 +44,85 @@ const DashboardContent = () => {
         {/* <div className="text-[#808191] text-sm">סקירה כללית של מלאי</div> */}
       </div>
 
-      {/* Detailed Bars */}
-      <Card className="lg:col-span-2 min-h-[400px] relative overflow-hidden">
-        <div className="flex justify-between items-start mb-6">
-          <h2 className="text-lg font-bold text-white">פירוט מעמיק</h2>
-          <div className="text-sm text-[#808191]">סטטוס מכלולים</div>
-        </div>
-        <div className="h-[300px] w-full">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={kpis.typeAggregates} barSize={12}>
-              <CartesianGrid
-                strokeDasharray="3 3"
-                stroke="#2F333F"
-                vertical={false}
-              />
-              <XAxis
-                dataKey="type"
-                stroke="#808191"
-                tick={{ fill: "#808191", fontSize: 12 }}
-                axisLine={false}
-                tickLine={false}
-              />
-              <YAxis
-                stroke="#808191"
-                tick={{ fill: "#808191", fontSize: 12 }}
-                axisLine={false}
-                tickLine={false}
-                orientation="right"
-              />
-              <Tooltip
-                cursor={{ fill: "#2F333F" }}
-                contentStyle={{
-                  backgroundColor: "#242731",
-                  borderColor: "#2F333F",
-                  borderRadius: "8px",
-                  color: "#fff",
-                  direction: "rtl",
-                  textAlign: "right",
-                }}
-              />
-              <Legend iconType="circle" wrapperStyle={{ paddingTop: "20px" }} />
-              <Bar
-                dataKey="usable"
-                stackId="a"
-                fill="#0096FF"
-                radius={[4, 4, 0, 0]}
-                name="תקין"
-                onClick={(d) => handleChartClick(d, "Type", "type")}
-              />
-              <Bar
-                dataKey="inProcess"
-                stackId="a"
-                fill="#6C5DD3"
-                name="בטיפול"
-                onClick={(d) => handleChartClick(d, "Type", "type")}
-              />
-              <Bar
-                dataKey="faulty"
-                stackId="a"
-                fill="#FF754B"
-                name="תקול"
-                onClick={(d) => handleChartClick(d, "Type", "type")}
-              />
-              <Bar
-                dataKey="closed"
-                stackId="a"
-                fill="#31a919ff"
-                radius={[0, 0, 4, 4]}
-                name="סגור"
-                onClick={(d) => handleChartClick(d, "Type", "type")}
-              />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-      </Card>
-
       {/* Graphs */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Detailed Bars */}
+        <Card className="lg:col-span-2 min-h-[400px] relative overflow-hidden">
+          <div className="flex justify-between items-start mb-6">
+            <h2 className="text-lg font-bold text-white">פירוט מעמיק</h2>
+            <div className="text-sm text-[#808191]">סטטוס מכלולים</div>
+          </div>
+          <div className="h-[300px] w-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={kpis.typeAggregates} barSize={12}>
+                <CartesianGrid
+                  strokeDasharray="3 3"
+                  stroke="#2F333F"
+                  vertical={false}
+                />
+                <XAxis
+                  dataKey="type"
+                  stroke="#808191"
+                  tick={{ fill: "#808191", fontSize: 12 }}
+                  axisLine={false}
+                  tickLine={false}
+                />
+                <YAxis
+                  stroke="#808191"
+                  tick={{ fill: "#808191", fontSize: 12 }}
+                  axisLine={false}
+                  tickLine={false}
+                  orientation="right"
+                />
+                <Tooltip
+                  cursor={{ fill: "#2F333F" }}
+                  contentStyle={{
+                    backgroundColor: "#242731",
+                    borderColor: "#2F333F",
+                    borderRadius: "8px",
+                    color: "#fff",
+                    direction: "rtl",
+                    textAlign: "right",
+                  }}
+                />
+                <Legend
+                  iconType="circle"
+                  wrapperStyle={{ paddingTop: "20px" }}
+                />
+                <Bar
+                  dataKey="usable"
+                  stackId="a"
+                  fill="#0096FF"
+                  radius={[4, 4, 0, 0]}
+                  name="תקין"
+                  onClick={(d) => handleChartClick(d, "Type", "type")}
+                />
+                <Bar
+                  dataKey="inProcess"
+                  stackId="a"
+                  fill="#6C5DD3"
+                  name="בטיפול"
+                  onClick={(d) => handleChartClick(d, "Type", "type")}
+                />
+                <Bar
+                  dataKey="faulty"
+                  stackId="a"
+                  fill="#FF754B"
+                  name="תקול"
+                  onClick={(d) => handleChartClick(d, "Type", "type")}
+                />
+                <Bar
+                  dataKey="closed"
+                  stackId="a"
+                  fill="#31a919ff"
+                  radius={[0, 0, 4, 4]}
+                  name="סגור"
+                  onClick={(d) => handleChartClick(d, "Type", "type")}
+                />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </Card>
         {/* <Card className="lg:col-span-2 min-h-[400px] relative overflow-hidden">
           <div className="flex justify-between items-start mb-6">
             <div>
