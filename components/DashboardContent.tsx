@@ -63,7 +63,7 @@ const DashboardContent = () => {
                 בטיפול
               </div>
 
-              <div className="flex items-center text-xs text-[#31a919ff]">
+              <div className="flex items-center text-xs text-[#808191]">
                 <span className="w-2 h-2 rounded-full bg-[#31a919ff] ml-1"></span>
                 סגור
               </div>
