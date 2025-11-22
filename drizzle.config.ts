@@ -1,10 +1,11 @@
+// drizzle.config.ts
 import type { Config } from "drizzle-kit";
 
 export default {
   schema: "./db/schema.ts",
   out: "./drizzle",
-  driver: "better-sqlite",
+  dialect: "postgresql",
   dbCredentials: {
-    url: "./db/app.db",
+    url: process.env.DATABASE_URL!,
   },
 } satisfies Config;

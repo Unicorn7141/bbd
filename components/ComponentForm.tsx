@@ -122,7 +122,7 @@ const ComponentForm: React.FC<ComponentFormProps> = ({
           <input
             type="text"
             name="arrivedFrom"
-            value={formData.arrivedFrom}
+            value={formData.arrivedFrom ?? ""}
             onChange={handleChange}
             required
             className={inputClass}
@@ -135,7 +135,7 @@ const ComponentForm: React.FC<ComponentFormProps> = ({
           <input
             type="text"
             name="primaryFault"
-            value={formData.primaryFault}
+            value={formData.primaryFault ?? ""}
             onChange={handleChange}
             className={inputClass}
           />
@@ -145,7 +145,7 @@ const ComponentForm: React.FC<ComponentFormProps> = ({
           <input
             type="text"
             name="secondaryFault"
-            value={formData.secondaryFault}
+            value={formData.secondaryFault ?? ""}
             onChange={handleChange}
             className={inputClass}
           />
