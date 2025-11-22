@@ -38,14 +38,18 @@ const DashboardContent = () => {
     return <div className="p-8 text-center text-white">טוען נתונים...</div>;
 
   return (
-    <div className="p-6 md:p-10 space-y-8 min-h-screen text-white">
+    <div className="w-full p-4 sm:p-6 md:p-10 space-y-6 min-h-screen text-white overflow-x-hidden">
       <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold tracking-tight">לוח בקרה</h1>
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
+            לוח בקרה
+          </h1>
+        </div>
         {/* <div className="text-[#808191] text-sm">סקירה כללית של מלאי</div> */}
       </div>
 
       {/* Graphs */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {/* Detailed Bars */}
         <Card className="lg:col-span-2 min-h-[400px] relative overflow-hidden">
           <div className="flex justify-between items-start mb-6">
@@ -309,7 +313,7 @@ const DashboardContent = () => {
       </div>
 
       {/* Circles */}
-      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 min-w-0">
         <CircularProgress
           value={kpis.totalComponents}
           label='סה"כ'
