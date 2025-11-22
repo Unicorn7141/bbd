@@ -120,8 +120,8 @@ const DashboardContent = () => {
       </Card>
 
       {/* Graphs */}
-      {/* <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <Card className="lg:col-span-2 min-h-[400px] relative overflow-hidden">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* <Card className="lg:col-span-2 min-h-[400px] relative overflow-hidden">
           <div className="flex justify-between items-start mb-6">
             <div>
               <h2 className="text-lg font-bold text-white">זרימת מכלולים</h2>
@@ -241,7 +241,7 @@ const DashboardContent = () => {
               </AreaChart>
             </ResponsiveContainer>
           </div>
-        </Card>
+        </Card> */}
 
         <Card className="flex flex-col items-center justify-center relative">
           <h2 className="absolute top-6 right-6 text-lg font-bold text-white">
@@ -304,7 +304,7 @@ const DashboardContent = () => {
             ))}
           </div>
         </Card>
-      </div> */}
+      </div>
 
       {/* Circles */}
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
